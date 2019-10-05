@@ -1,0 +1,21 @@
+#!/bin/sh
+
+#
+# Creates a docker container from an image, without running it. Then exports
+# the filesystem and munges it through SHA-256 to produce a hash before
+# cleaning up the container
+#
+
+if [ $# -ne 1 ]; then
+  echo
+  echo "Usage: dcash IMAGE"
+  echo
+  exit 1
+fi
+
+docker create $1 | {
+  read cid
+  docker export $cid | tar Oxv 2>&1 | shasum -a 256 | awk '{print $1}'
+  docker rm $cid > /dev/null
+}
+
