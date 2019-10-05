@@ -3,6 +3,6 @@ class DCash < Formula
   url 'https://github.com/richmidwinter/dcash.git'
 
   def install
-    bin.install "dcash""
+    bin.install "dcash"
   end
 end
